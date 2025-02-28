@@ -7,8 +7,7 @@ import Pages.LoginPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+
 
 import java.time.Duration;
 
@@ -20,7 +19,8 @@ public class LoginSteps {
     public static int firstNumberOfRecords;
     public static int secondNumberOfRecords;
     public static int thirdNumberOfRecords;
-    public static String userNameValue;
+    public static String employeeNameValue;
+
     @Given("The user logins as admin")
     public void The_user_opens_the_website()
     {
@@ -42,7 +42,7 @@ public class LoginSteps {
     public void The_user_is_navigated_to_home_page()
     {
         homePage=new HomePage(Hooks.getDriver());
-        Assert.assertEquals(Hooks.getDriver().getCurrentUrl(),"https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index","first assertion");
+        homePage.checkNavigationToHomePage(Hooks.getDriver(),"The user is navigated to home page");
     }
     @When("Clicks on admin button on the sidebar")
     public void Clicks_on_admin_button_on_the_sidebar()
@@ -52,14 +52,13 @@ public class LoginSteps {
     @Then("The user is navigated to admin page")
     public void The_user_is_navigated_to_admin_page()
     {
-        Assert.assertEquals(Hooks.getDriver().getCurrentUrl(),"https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers","second assertion");
-
+       adminPage.checkNavigationToAdminPage(Hooks.getDriver(),"The user is navigated to admin page");
     }
     @When("The user gets the number of current records")
     public void The_user_gets_the_number_of_current_records()
     {
         firstNumberOfRecords=Integer.parseInt(adminPage.getNumberOfRecords());
-        System.out.println(firstNumberOfRecords);
+        //System.out.println(firstNumberOfRecords);
 
     }
     @When("Clicks to add a new record")
@@ -72,8 +71,8 @@ public class LoginSteps {
         addUserPage.userRoleInputBoxClick();
         addUserPage.enterUserRole(userRole);
         addUserPage.employeeNameInputBoxClick();
-        userNameValue= addUserPage.enterEmployeeName(employeeInit);
-        System.out.println(userNameValue);
+        employeeNameValue= addUserPage.enterEmployeeName(employeeInit);
+       // System.out.println(employeeNameValue);
         addUserPage.statusInputBoxClick();
         addUserPage.enterStatus(status);
         addUserPage.userNameInputBoxClick();
@@ -93,14 +92,15 @@ public class LoginSteps {
     public void Gets_the_number_of_records_again()
     {
         secondNumberOfRecords=Integer.parseInt(adminPage.getNumberOfRecords());
-        System.out.println(secondNumberOfRecords);
+        //System.out.println(secondNumberOfRecords);
     }
-    @Then("The number of records is increased by one")
+    @Then("Verify the number of records is increased by one")
     public void The_number_of_records_is_increased_by_one()
     {
         int difference=secondNumberOfRecords-firstNumberOfRecords;
-        System.out.println(difference);
-        Assert.assertEquals(difference,1,"Number of records increased by one");
+        //System.out.println(difference);
+        adminPage.numberOfRecordsAssertion(difference,1,"Number of records increased by one");
+
     }
     @Then ("The user enters the userName {string} and userRole {string} and status {string} for search")
     public void The_user_enters_the_userName_and_userRole_and_status_for_search(String uName, String userRole, String status) throws InterruptedException {
@@ -109,7 +109,7 @@ public class LoginSteps {
         adminPage.userRoleInputBoxClick();
         adminPage.enterUserRole(userRole);
         adminPage.employeeNameInputBoxClick();
-        adminPage.enterEmployeeName(userNameValue);
+        adminPage.enterEmployeeName(employeeNameValue);
         adminPage.statusInputBoxClick();
         adminPage.enterStatus(status);
 
@@ -120,10 +120,11 @@ public class LoginSteps {
         adminPage.searchButtonClick();
     }
     @Then("The record of the user with specified data should appear")
-    public void The_record_of_the_user_with_specified_data_should_appear()
+    public void The_record_of_the_user_with_specified_data_should_appear() throws InterruptedException
     {
-        int number=Integer.parseInt(adminPage.getNumberOfRecords());
-        Assert.assertEquals(number,1,"A record added");
+
+        int numberOfSearchRecords=Integer.parseInt(adminPage.getNumberOfRecords());
+        adminPage.numberOfRecordsAssertion(numberOfSearchRecords,1,"A record added");
     }
     @Then("Click on delete button")
     public void Click_on_delete_button()
@@ -144,9 +145,13 @@ public class LoginSteps {
     public void Get_the_number_of_records()
     {
         thirdNumberOfRecords=Integer.parseInt(adminPage.getNumberOfRecords());
-        System.out.println(thirdNumberOfRecords);
-        int diff=thirdNumberOfRecords-secondNumberOfRecords;
-        Assert.assertEquals(-1,diff,"Number of records decreased by one");
-
+        //System.out.println(thirdNumberOfRecords);
+    }
+    @Then("Verify the number of records is decreased by one")
+    public void Verify_the_number_of_records_is_decreased_by_one()
+    {
+        int difference=thirdNumberOfRecords-secondNumberOfRecords;
+        //System.out.println(difference);
+        adminPage.numberOfRecordsAssertion(difference,-1,"Number of records decreased by one");
     }
 }

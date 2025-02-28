@@ -33,13 +33,16 @@ public class BasePage {
     {
         WebElement locatorElement=locateElement(locator);
         locatorElement.sendKeys(choiceString);
-        //explicitwait(locator);
     }
-
-    public static WebDriver getDriver() {
+    public String getCurrentURL(WebDriver driver)
+    {
+        return driver.getCurrentUrl();
+    }
+    public static WebDriver getDriver()
+    {
         return driver;
     }
-    public List<WebElement> explicitwaitfordropdown(By locator)
+    public List<WebElement> explicitWaitForDropDown(By locator)
     {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
@@ -47,22 +50,18 @@ public class BasePage {
     }
     public void explicitWaitForTextBoxesValues(By locator, String value)
     {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.textToBePresentInElementValue(locator, value))  ;
     }
     public void explicitWaitForClickableItems(By locator)
     {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(locator))  ;
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
     public void explicitWaitForVisibility(By locator)
     {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator))  ;
     }
-    public void explicitwait(By locator)
-    {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-      /*  List<WebElement> options =*/ wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
+
 }

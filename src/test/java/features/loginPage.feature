@@ -14,7 +14,7 @@
         And   Enter the userRole "<userRole>" and employeeInitial "<employeeInitial>" and status "<status>" and userName "<useName>" and password "<password>" and confirmationPassword "<confirmationPassword>"
         And   Clicks on save button
         And   Gets the number of records again
-        Then  The number of records is increased by one
+        Then  Verify the number of records is increased by one
         Then  The user enters the userName "<useName>" and userRole "<userRole>" and status "<status>" for search
         And   Clicks on search button
         Then  The record of the user with specified data should appear
@@ -22,9 +22,11 @@
         And   Confirm deletion
         Then  Click reset button
         And   Get the number of records
+        Then  Verify the number of records is decreased by one
+
         Examples:
           | userName | password | userRole | employeeInitial| status  | confirmationPassword| useName    |
-          | Admin    | admin123 |   ESS    |    a           | Enabled |   admin123          | acdefb1    |
+          | Admin    | admin123 |   ESS    |    a           | Enabled |   admin123          | admin1200   |
 
 
 

@@ -3,6 +3,7 @@ package Pages;
 import Base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 
 public class HomePage extends BasePage {
 
@@ -18,6 +19,11 @@ public class HomePage extends BasePage {
         explicitWaitForVisibility(adminButton);
         webElementClick(adminButton);
     }
+    public void checkNavigationToHomePage(WebDriver driver,String message)
+    {
+        String currentURL=getCurrentURL(driver);
+        Assert.assertEquals(currentURL,"https://opensource-demo.orangehrmlive.com/web/index.php/dashboard/index",message);
 
+    }
 
 }
